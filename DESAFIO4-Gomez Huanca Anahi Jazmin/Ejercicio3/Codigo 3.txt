@@ -1,0 +1,38 @@
+% Datos iniciales
+B = 20;              % Ancho del canal en metros
+H = 0.3;             % Profundidad del canal en metros
+n = 0.03;            % Coeficiente de rugosidad
+S = 0.0003;          % Pendiente del canal
+
+% Fórmula de Manning para flujo Q
+Q = (1/n) * ((B*H) / (B + 2*H))^(5/3) * sqrt(S);
+
+% Mostrar el flujo calculado
+fprintf('El flujo calculado Q es: %.5f m^3/s\n', Q);
+
+% Datos para el análisis de sensibilidad
+dn = 0.003;         % Incertidumbre en n
+dS = 0.00003;       % Incertidumbre en S
+
+% Derivadas parciales de Q respecto a n y S
+dQ_dn = -(Q / n);     % Derivada de Q con respecto a n
+dQ_dS = 0.5 * (Q / S); % Derivada de Q con respecto a S
+
+% Cálculo del error relativo para n y S
+error_rel_n = abs(dQ_dn) * (dn / n);
+error_rel_S = abs(dQ_dS) * (dS / S);
+
+% Sensibilidad total del flujo
+error_total = error_rel_n + error_rel_S;
+
+% Mostrar resultados de sensibilidad
+fprintf('Sensibilidad debido a la rugosidad (n): %.5f\n', error_rel_n);
+fprintf('Sensibilidad debido a la pendiente (S): %.5f\n', error_rel_S);
+fprintf('Error total en el flujo Q: %.5f\n', error_total);
+
+% Determinar qué variable tiene mayor impacto
+if error_rel_n > error_rel_S
+    fprintf('La variable rugosidad (n) tiene mayor impacto en el flujo.\n');
+else
+    fprintf('La variable pendiente (S) tiene mayor impacto en el flujo.\n');
+end

@@ -1,0 +1,47 @@
+% MATLAB Script para calcular la serie de Taylor de ln(x) hasta el cuarto orden
+
+% Definir la función y el punto de expansión
+f = @(x) log(x); % Función ln(x)
+x_base = 1;      % Punto base de expansión
+x_eval = 2.5;    % Punto donde queremos evaluar ln(2.5)
+h = x_eval - x_base; % Diferencia h = x - 1
+
+% Valor exacto de ln(2.5)
+valor_exacto = log(2.5);
+
+% Aproximaciones de Taylor en diferentes órdenes
+taylor_1 = h;
+taylor_2 = taylor_1 - (h^2 / 2);
+taylor_3 = taylor_2 + (h^3 / 3);
+taylor_4 = taylor_3 - (h^4 / 4);
+
+% Calcular los errores relativos porcentuales verdaderos para cada orden
+error_1 = abs((valor_exacto - taylor_1) / valor_exacto) * 100;
+error_2 = abs((valor_exacto - taylor_2) / valor_exacto) * 100;
+error_3 = abs((valor_exacto - taylor_3) / valor_exacto) * 100;
+error_4 = abs((valor_exacto - taylor_4) / valor_exacto) * 100;
+
+% Mostrar los resultados
+fprintf('Valor exacto de ln(2.5): %.10f\n', valor_exacto);
+fprintf('Aproximación de 1er orden: %.10f, Error relativo: %.10f%%\n', taylor_1, error_1);
+fprintf('Aproximación de 2do orden: %.10f, Error relativo: %.10f%%\n', taylor_2, error_2);
+fprintf('Aproximación de 3er orden: %.10f, Error relativo: %.10f%%\n', taylor_3, error_3);
+fprintf('Aproximación de 4to orden: %.10f, Error relativo: %.10f%%\n', taylor_4, error_4);
+
+% Opcional: Puedes graficar las aproximaciones si lo deseas
+ordenes = 1:4;
+aproximaciones = [taylor_1, taylor_2, taylor_3, taylor_4];
+errores_relativos = [error_1, error_2, error_3, error_4];
+
+figure;
+subplot(2,1,1);
+plot(ordenes, aproximaciones, '-o');
+title('Aproximaciones de Taylor para ln(2.5)');
+xlabel('Orden de la Aproximación');
+ylabel('Valor Aproximado');
+
+subplot(2,1,2);
+plot(ordenes, errores_relativos, '-o');
+title('Errores Relativos Porcentuales');
+xlabel('Orden de la Aproximación');
+ylabel('Error Relativo (%)');

@@ -1,0 +1,44 @@
+% Código compacto para resolver el problema de la serie de Taylor
+
+% Definición de la función f(x) = 25x^3 - 6x^2 + 7x - 88
+syms x
+f = 25*x^3 - 6*x^2 + 7*x - 88;
+
+% Punto base y de evaluación
+x_base = 1;  
+x_eval = 3;  
+
+% Derivadas de la función
+f_prime = diff(f, x); 
+f_double_prime = diff(f_prime, x); 
+f_triple_prime = diff(f_double_prime, x);
+
+% Evaluar función y derivadas en x = 1
+f1 = double(subs(f, x, x_base));
+f1_prime = double(subs(f_prime, x, x_base));
+f1_double_prime = double(subs(f_double_prime, x, x_base));
+f1_triple_prime = double(subs(f_triple_prime, x, x_base));
+
+% Expansión de Taylor hasta el tercer orden en x = 3
+h = x_eval - x_base;
+taylor_0 = f1;
+taylor_1 = f1 + f1_prime * h;
+taylor_2 = taylor_1 + (f1_double_prime / 2) * h^2;
+taylor_3 = taylor_2 + (f1_triple_prime / 6) * h^3;
+
+% Valor exacto de f(3)
+f_exact = double(subs(f, x, x_eval));
+
+% Cálculo del error relativo porcentual verdadero para cada aproximación
+errors = abs([(f_exact - taylor_0), (f_exact - taylor_1), (f_exact - taylor_2), (f_exact - taylor_3)] / f_exact) * 100;
+
+% Mostrar resultados
+fprintf('Valor exacto de f(3): %.4f\n', f_exact);
+fprintf('Aproximación de Taylor orden 0: %.4f\n', taylor_0);
+fprintf('Aproximación de Taylor orden 1: %.4f\n', taylor_1);
+fprintf('Aproximación de Taylor orden 2: %.4f\n', taylor_2);
+fprintf('Aproximación de Taylor orden 3: %.4f\n', taylor_3);
+fprintf('Error relativo orden 0: %.4f%%\n', errors(1));
+fprintf('Error relativo orden 1: %.4f%%\n', errors(2));
+fprintf('Error relativo orden 2: %.4f%%\n', errors(3));
+fprintf('Error relativo orden 3: %.4f%%\n', errors(4));
